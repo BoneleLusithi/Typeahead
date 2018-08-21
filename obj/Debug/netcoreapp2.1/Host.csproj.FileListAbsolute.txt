@@ -15,7 +15,6 @@ C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Host.Tag
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Host.RazorCoreGenerate.cache
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Razor\Pages\Index.g.cshtml.cs
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Razor\Pages\Shared\_Layout.g.cshtml.cs
-C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Razor\Pages\Shared\_ValidationScriptsPartial.g.cshtml.cs
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Razor\Pages\_ViewImports.g.cshtml.cs
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Razor\Pages\_ViewStart.g.cshtml.cs
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Host.RazorTargetAssemblyInfo.cache
