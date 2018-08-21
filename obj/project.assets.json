@@ -11512,9 +11512,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\blusi\\source\\repos\\Typeahead\\Typeahead\\Typeahead.csproj",
-      "projectName": "Typeahead",
-      "projectPath": "C:\\Users\\blusi\\source\\repos\\Typeahead\\Typeahead\\Typeahead.csproj",
+      "projectUniqueName": "C:\\Users\\blusi\\source\\repos\\Typeahead\\Typeahead\\Host.csproj",
+      "projectName": "Host",
+      "projectPath": "C:\\Users\\blusi\\source\\repos\\Typeahead\\Typeahead\\Host.csproj",
       "packagesPath": "C:\\Users\\blusi\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\blusi\\source\\repos\\Typeahead\\Typeahead\\obj\\",
       "projectStyle": "PackageReference",
