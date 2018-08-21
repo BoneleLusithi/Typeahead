@@ -1,10 +1,9 @@
 ﻿// Custom Typeahead control
-
 const template = document.createElement('template');
 
 template.innerHTML = `
-    <input list="mylist" placeholder=""/>
-        <datalist id="mylist">
+    <input/>
+        <datalist>
         </datalist>`;
 
 class TymeText extends HTMLElement {
@@ -22,106 +21,120 @@ class TymeText extends HTMLElement {
         this.addEventListener('keyup', function (e) {
             return this.keyDownEvent(e);
         });
-
-        // to set a default value :)
-        //var option = document.createElement('option');
-        //option.value = 'Please Select';
-        //this.dataList.appendChild(option);        
-        //this.inputElement.value = option.value;
     }
 
     // Attributes
 
-    // A setter for Source.
-    set source(val) {
-        this.setAttribute('source', val);
-    }
-
-    // A getter for Source.
-    get source() {
-        return this.getAttribute('source');
-    }
-
-    // A setter for Value Member.
+    // Value Member: used in datalist.
     set valueMember(val) {
         this.setAttribute('valueMember', val);
     }
 
-    // A getter for Value Member.
     get valueMember() {
         return this.getAttribute('valueMember');
     }
 
-    // A setter for Display Member.
+    // Display Member: used on datalist.
     set displayMember(val) {
         this.setAttribute('displayMember', val);
     }
-
-    // A getter for Display Member.
+    
     get displayMember() {
         return this.getAttribute('displayMember');
     }
 
-    // A setter for Ajax Uri. The url used to fetch the datalist options.
-    set ajaxUri(val) {
-        this.setAttribute('ajaxUri', val);
+    // Source Uri: used to fetch the datalist options.
+    set sourceUri(val) {
+        this.setAttribute('sourceUri', val);
     }
 
-    // A getter for Ajax Uri. 
-    get ajaxUri() {
-        return this.getAttribute('ajaxUri');
+    get sourceUri() {
+        return this.getAttribute('sourceUri');
     }
 
-    // A setter for Ajax Uri. The url used to fetch the datalist options.
+    // Place Holder: used on the input element.
     set placeHolder(val) {
         this.setAttribute('placeHolder', val);
     }
 
-    // A getter for Ajax Uri. 
     get placeHolder() {
         return this.getAttribute('placeHolder');
     }
 
     static get observedAttributes() {
-        return ['source', 'valueMember', 'displayMember', 'ajaxUri', 'placeHolder'];
+        return ['valueMember', 'displayMember', 'sourceUri', 'placeHolder', 'listId', 'value'];
+    }
+
+    set listId(val) {
+        this.setAttribute('listId', val);
+    }
+
+    get listId() {
+        return this.getAttribute('listId');
     }
 
     //Methods
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        switch (name) {
-            case 'source':
-                console.log(`Source changed from ${oldValue} to ${newValue}`);
-                break;
-            case 'displayMember':
-                console.log(`Display Member changed from ${oldValue} to ${newValue}`);
-                break;
-            case 'valueMember':
-                console.log(`Value Member changed from ${oldValue} to ${newValue}`);
-                break;
-            case 'ajaxUri':
-                console.log(`Ajax Uri changed from ${oldValue} to ${newValue}`);
-                break;
-            case 'placeHolder':
-                console.log(`Place Holder changed from ${oldValue} to ${newValue}`);
-                break;
-        }
+    connectedCallback() {
+        this.inputElement.placeholder = this.placeHolder;
+
+        this.dataList.id = this.listId;
+        this.inputElement.setAttribute('list', this.listId);
+
+        this.inputElement.addEventListener('input', this.inputEvent);//Todo: use event parameter to get data-value of selected item
+        this.dataList.addEventListener('input', this.testEvent);//Todo: use event parameter to get data-value of selected item
     }
 
-    connectedCallback() {
-        console.log('souce (on callback)', this.source);
-        console.log('display (on callback)', this.displayMember);
-        console.log('value (on callback)', this.valueMember);
-        console.log('ajax uri (on callback)', this.ajaxUri);
+    loadDataList () {
+    var loadList = {
+        url: this.sourceUri,//TODO: Add parameters as this.inputElement.value :)
+        type: 'GET',
+        contentType: 'application/json',
+        success: (data, textStatus, xhrRequest) => {
+            this.resetDatalist();
 
-        this.inputElement.placeholder = this.placeHolder;
+            data.map(item => {
+                var option = document.createElement('option');
+                option.value = item[this.displayMember];
+                option.setAttribute('data-value', item[this.valueMember]);
+
+                this.dataList.appendChild(option);        
+            });
+            console.log('datalist', this.dataList);
+        },
+        error: (error) => {
+            console.log('error : ', error);
+        }
+    };
+
+        return $.ajax(loadList);
+    };
+
+    resetDatalist() {
+        this.dataList.innerHTML = '';
     }
 
     keyDownEvent(e) {
-        console.log('event', e);
         if (this.inputElement.value.length > 3) {
             console.log('inputElement value', this.inputElement.value);
+            this.loadDataList();
+        } else {
+            this.resetDatalist();
         }
+    }
+
+    testEvent() {
+        console.log('test event');
+    }
+
+    inputEvent() {
+        var element = this;
+
+        console.log(element);
+    }
+
+    onSelect() {
+        console.log('selected');       
     }
 }
 

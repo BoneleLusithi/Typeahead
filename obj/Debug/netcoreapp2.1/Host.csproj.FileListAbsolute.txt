@@ -23,3 +23,4 @@ C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Host.Vie
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Host.dll
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Host.pdb
 C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Host.csproj.CopyComplete
+C:\Users\blusi\source\repos\Typeahead\Typeahead\obj\Debug\netcoreapp2.1\Host.csprojAssemblyReference.cache

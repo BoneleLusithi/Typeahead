@@ -1,8 +1,8 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Typeahead Test Page";
 }
 
 <label for="Username"> Username : </label>
-<tyme-text id="loginName" source="items" displayMember="name" valueMember="id" ajaxUri="https://jsonplaceholder.typicode.com/users" placeHolder="User name"></tyme-text>
+<tyme-text displayMember="name" valueMember="id" listId="nameList" sourceUri="https://jsonplaceholder.typicode.com/users" placeHolder="User name"></tyme-text>
