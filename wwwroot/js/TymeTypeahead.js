@@ -69,10 +69,6 @@ class TymeText extends HTMLElement {
         return this.getAttribute('placeHolder');
     }
 
-    static get observedAttributes() {
-        return ['valueMember', 'displayMember', 'sourceUri', 'placeHolder', 'listId', 'value'];
-    }
-
     set listId(val) {
         this.setAttribute('listId', val);
     }
@@ -80,8 +76,12 @@ class TymeText extends HTMLElement {
     get listId() {
         return this.getAttribute('listId');
     }
-
+    
     //Methods //////////////////////////////
+    
+    static get observedAttributes() {
+        return ['valueMember', 'displayMember', 'sourceUri', 'placeHolder', 'listId', 'value'];
+    }
 
     connectedCallback() {
         var that = this;
