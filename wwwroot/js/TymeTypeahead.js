@@ -8,7 +8,7 @@ template.innerHTML = `
 
 class TymeText extends HTMLElement {
 
-    //Constructor
+    //Constructor ///////////////////////////////
 
     constructor() {
         super();
@@ -23,7 +23,7 @@ class TymeText extends HTMLElement {
         });
     }
 
-    // Attributes
+    // Attributes //////////////////////////////
 
     // Value Member: used in datalist.
     set valueMember(val) {
@@ -34,11 +34,19 @@ class TymeText extends HTMLElement {
         return this.getAttribute('valueMember');
     }
 
+    set selectedId(val) {
+        this.setAttribute('selectedId', val);
+    }
+
+    get selectedId() {
+        return this.getAttribute('selectedId');
+    }
+
     // Display Member: used on datalist.
     set displayMember(val) {
         this.setAttribute('displayMember', val);
     }
-    
+
     get displayMember() {
         return this.getAttribute('displayMember');
     }
@@ -73,39 +81,63 @@ class TymeText extends HTMLElement {
         return this.getAttribute('listId');
     }
 
-    //Methods
+    //Methods //////////////////////////////
 
     connectedCallback() {
+        var that = this;
         this.inputElement.placeholder = this.placeHolder;
 
         this.dataList.id = this.listId;
         this.inputElement.setAttribute('list', this.listId);
 
-        this.inputElement.addEventListener('input', this.inputEvent);//Todo: use event parameter to get data-value of selected item
-        this.dataList.addEventListener('input', this.testEvent);//Todo: use event parameter to get data-value of selected item
+        this.inputElement.addEventListener('input', function (e) {
+            var valueFoundInd = false;
+
+            e.path.map(item => {
+                if (item.localName === 'input') {
+                    if (typeof item.list !== 'undefined' && item.list) {
+                        if (typeof item.list.options !== 'undefined' && item.list.options) {
+                            var arr = [];
+                            [].push.apply(arr, item.list.options);
+
+                            arr.map(option => {
+                                if (option.value === item.value) {
+                                    that.selectedId = option.getAttribute('data-value');
+                                    valueFoundInd = true;
+                                }
+                            })
+                        }
+                    }
+                }
+            })
+
+            if (!valueFoundInd) {
+                that.selectedId = null;
+            }
+        })
     }
 
-    loadDataList () {
-    var loadList = {
-        url: this.sourceUri,//TODO: Add parameters as this.inputElement.value :)
-        type: 'GET',
-        contentType: 'application/json',
-        success: (data, textStatus, xhrRequest) => {
-            this.resetDatalist();
+    loadDataList() {
+        var loadList = {
+            url: this.sourceUri,//TODO: Add parameters as this.inputElement.value :)
+            type: 'GET',
+            contentType: 'application/json',
+            success: (data, textStatus, xhrRequest) => {
+                this.resetDatalist();
 
-            data.map(item => {
-                var option = document.createElement('option');
-                option.value = item[this.displayMember];
-                option.setAttribute('data-value', item[this.valueMember]);
+                data.map(item => {
+                    var option = document.createElement('option');
+                    option.value = item[this.displayMember];
+                    option.innerText = item.username;
+                    option.setAttribute('data-value', item[this.valueMember]);
 
-                this.dataList.appendChild(option);        
-            });
-            console.log('datalist', this.dataList);
-        },
-        error: (error) => {
-            console.log('error : ', error);
-        }
-    };
+                    this.dataList.appendChild(option);
+                });
+            },
+            error: (error) => {
+                console.log('error : ', error);
+            }
+        };
 
         return $.ajax(loadList);
     };
@@ -116,25 +148,10 @@ class TymeText extends HTMLElement {
 
     keyDownEvent(e) {
         if (this.inputElement.value.length > 3) {
-            console.log('inputElement value', this.inputElement.value);
             this.loadDataList();
         } else {
             this.resetDatalist();
         }
-    }
-
-    testEvent() {
-        console.log('test event');
-    }
-
-    inputEvent() {
-        var element = this;
-
-        console.log(element);
-    }
-
-    onSelect() {
-        console.log('selected');       
     }
 }
 
